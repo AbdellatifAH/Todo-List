@@ -1,1 +1,3 @@
-# Todo-List
+# ToDo List
+
+This project is part of The Odin Project course.
