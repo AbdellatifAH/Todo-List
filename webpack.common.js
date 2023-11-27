@@ -5,11 +5,16 @@ module.exports = {
     entry: {
         app: './src/index.js',
     },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            title: 'ToDo App',
+        }),
+    ],
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
         clean: true,
-        assetModuleFilename: '[name][ext]'
     },
     module: {
         rules: [
