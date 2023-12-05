@@ -2,23 +2,25 @@ import Project from './projects';
 import Task from './tasks';
 export const allProjects = [];
 
-export function addNewTaskObject(taskName, projectName) {
-    const newTask = Task(taskName, projectName);
-    let project = findProject(projectName);
-
-    if (project === undefined)
-        project = addNewProjectObject(projectName)
-    linkTaskAndProject(newTask, project);
+export function addNewTaskObject(taskName, description, dueDate, priority, status, projectName) {
+    const newTask = Task(taskName, description, dueDate, priority, status, projectName);
+    const project = findProject(projectName);
+    linkTaskAndProject(project, newTask);
     return newTask;
 }
 
 function findProject(projectName) {
 
-    const project = allProjects.find((projectInstance) => {
+    if (projectName == "")
+        projectName = "defaultProject";
+
+    let project = allProjects.find((projectInstance) => {
         if (projectInstance.name == projectName)
             return projectInstance
     })
 
+    if (project === undefined)
+        project = addNewProjectObject(projectName)
     return project;
 }
 
@@ -30,9 +32,9 @@ export function addNewProjectObject(projectName) {
 }
 
 function linkTaskAndProject(project, task) {
-    project.tasksList.push(task);
-    task.indexInProjectTasksList = tasksList.length - 1;
     task.project = project;
+    (project.tasksList).push(task);
+    task.indexInProjectTasksList = task.project.tasksList.length - 1;
 }
 
 export function dropTask(task) {
