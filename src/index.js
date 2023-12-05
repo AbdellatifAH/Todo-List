@@ -1,3 +1,5 @@
 import './style.css'
-
-console.log('it WORKSS!!')
+import "./projectsList"
+import "./eventListener";
+import "./domElements";
+import './createTaskCard';
