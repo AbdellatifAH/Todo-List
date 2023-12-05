@@ -1,6 +1,7 @@
 const taskPrototype = {};
 
-export default function createTask(name = '', project = 'defaultProject', description = '', dueDate = '', priority = '', status = '') {
+export default function createTask(name = '', description = '', dueDate = '', priority = '', status = '', project = '') {
+
 
     const newTask = function () {
         const task = Object.create(taskPrototype);
@@ -14,11 +15,12 @@ export default function createTask(name = '', project = 'defaultProject', descri
     }();
 
 
-    taskPrototype.editTask = function (newName, newDescription, newDate, newProject) {
+    taskPrototype.editTask = function (newName, newDescription, newDate, newPriority, newStatus) {
         this.name = newName;
         this.description = newDescription;
         this.dueDate = newDate;
-        this.project = newProject;
+        this.priority = newPriority;
+        this.status = newStatus;
     }
 
     taskPrototype.changeStatus = function (newStatus) {
