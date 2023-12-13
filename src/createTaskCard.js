@@ -1,52 +1,86 @@
-import { dropTask } from "./projectsList";
-import { editTaskDomElements, expandTaskDomElements, displayTasks } from './domElements';
+import { allTasks, dropTask } from "./projectsList";
+import { expandTaskDomElements, findElement, projectDomElements, taskDomElements } from './domElements';
+import { clearTasksDisplay, renderProjectTasks } from "./renderDisplays";
 
 export default function createTaskCard(task) {
 
-    function createElement(element, textContent = '') {
+    function createElement(element, textContent = '', attribute = '', attributeValue = '') {
         const a = document.createElement(element);
         a.textContent = textContent;
+        if (attribute)
+            a.setAttribute(attribute, attributeValue);
         return a;
     }
 
     const card = createElement("div");
     card.classList.toggle("display-task");
 
-    const taskNameD = createElement("div", task.name);
-    const descriptionD = createElement("div", task.description);
-    const dueDateD = createElement("div", task.dueDate);
-    const priorityD = createElement("div", task.priority);
-    const statusD = createElement("div", task.status);
-    const projectD = createElement("div", task.project.name);
+    const taskName = createElement("div", task.name);
+    const description = createElement("div", task.description);
+    const dueDate = createElement("div", task.dueDate);
+    const priority = createElement("div", task.priority);
+    const status = createElement("div", task.status);
+    const project = createElement("div", task.project.name);
     const buttonsContainer = createElement("div");
     const dialogExpandButton = createElement("button", "Expand");
-    const editButton = createElement("button", "Edit");
     const deleteButton = createElement("button", "Delete");
 
+
+    const editButton = createElement("button", "Edit");
+
+    const editTaskName = createElement("input");
+    editTaskName.placeholder = "New Task Name";
+    const editTasDescription = createElement("input");
+    editTasDescription.placeholder = "New Description"
+    const editTaskDueDate = createElement("input", "", "type", "date");
+    editTaskDueDate.value = task.dueDate;
+
+    const editTaskPriority = createElement("select");
+    editTaskPriority.append(
+
+        createElement("option", "High"),
+        createElement("option", "Normal", "selected", true),
+        createElement("option", "Low")
+    )
+
+    const editTaskStatus = createElement("select");
+    editTaskStatus.append(
+
+        createElement("option", "Done"),
+        createElement("option", "In Progress"),
+        createElement("option", "Pending", "selected", true)
+    )
+
+    const editConfirmButton = createElement("button", "Confirm");
+    const editCancelButton = createElement("button", "Cancel");
+    const editButtonsContainer = createElement("div");
+    editButtonsContainer.append(editConfirmButton, editCancelButton)
+
     editButton.addEventListener("click", () => {
-        editTaskDomElements.dialog.showModal();
-        editTaskDomElements.name.value = task.name;
-        editTaskDomElements.description.value = task.description;
-        editTaskDomElements.dueDate.value = task.dueDate;
-        editTaskDomElements.priority.value = task.priority;
-        editTaskDomElements.status.value = task.status;
+        card.textContent = '';
+        findElement(taskDomElements.displayTasksHeader, "div", "Description").hidden = false;
+        findElement(taskDomElements.displayTasksHeader, "div", "Project Name").hidden = true;
+        card.append(editTaskName, editTasDescription, editTaskDueDate, editTaskPriority, editTaskStatus, editButtonsContainer);
     })
 
-    editTaskDomElements.confirmBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        task.editTask(
+    editCancelButton.addEventListener('click', () => {
+        card.textContent = '';
+        findElement(taskDomElements.displayTasksHeader, "div", "Description").hidden = true;
+        findElement(taskDomElements.displayTasksHeader, "div", "Project Name").hidden = false;
+        card.append(taskName, dueDate, priority, status, project, buttonsContainer);
+    })
 
-            editTaskDomElements.name.value,
-            editTaskDomElements.description.value,
-            editTaskDomElements.dueDate.value,
-            editTaskDomElements.priority.value,
-            editTaskDomElements.status.value
-        );
-        card.remove();
-        createTaskCard(task);
-        editTaskDomElements.dialog.close();
-        editTaskDomElements.form.reset();
-    }, { once: true })
+    editConfirmButton.addEventListener("click", () => {
+        task.editTask(editTaskName.value, editTasDescription.value, editTaskDueDate.value, editTaskPriority.value, editTaskStatus.value);
+        card.textContent = '';
+        findElement(taskDomElements.displayTasksHeader, "div", "Description").hidden = true;
+        findElement(taskDomElements.displayTasksHeader, "div", "Project Name").hidden = false;
+        // card.append(taskName, dueDate, priority, status, project, buttonsContainer);
+
+        findElement(projectDomElements.displayProject, "label", task.project.name).click();
+
+        renderProjectTasks(task.project);
+    })
 
     deleteButton.addEventListener("click", () => {
         dropTask(task);
@@ -63,8 +97,8 @@ export default function createTaskCard(task) {
         expandTaskDomElements.project.textContent = task.project.name;
     });
 
-    buttonsContainer.append(dialogExpandButton, editButton, deleteButton);
-    card.append(taskNameD, dueDateD, priorityD, statusD, projectD, buttonsContainer)
+    buttonsContainer.append(dialogExpandButton, deleteButton, editButton);
+    card.append(taskName, dueDate, priority, status, project, buttonsContainer)
     expandTaskDomElements.closeBtn.addEventListener('click', () => expandTaskDomElements.dialog.close());
-    displayTasks.append(card);
+    taskDomElements.displayTasks.append(card);
 }
