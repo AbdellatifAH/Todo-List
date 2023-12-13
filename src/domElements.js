@@ -1,6 +1,13 @@
-export const displayTasks = document.querySelector("#displayTasks")
+
+export function findElement(container, selector, text) {
+
+    return Array.from(container.querySelectorAll(selector))
+        .find(el => el.textContent === text);
+};
+
 
 export const taskDomElements = {
+    displayTasksHeader: document.querySelector("#displayTasksHeader"),
     dialog: document.querySelector("#add-new-task"),
     showDialogBtn: document.querySelector("#showModalTaskBtn"),
     addBtn: document.querySelector("#addTaskBtn"),
@@ -11,24 +18,19 @@ export const taskDomElements = {
     priority: document.querySelector("#priority"),
     status: document.querySelector("#status"),
     project: document.querySelector("#project"),
+    displayTasks: document.querySelector("#displayTasks"),
 }
 
 export const projectDomElements = {
     dialog: document.querySelector("#add-new-project"),
+    name: document.querySelector("#projectName"),
     showDialogBtn: document.querySelector("#showModalProjectBtn"),
     addBtn: document.querySelector("#addProjectBtn"),
     addingForm: document.querySelector("#addProjectForm"),
-}
+    displayProject: document.querySelector("#displayProject"),
+    allTasks: document.querySelector("#allTasks"),
+    defaultProject: document.querySelector("#defaultProject"),
 
-export const editTaskDomElements = {
-    dialog: document.querySelector("#edit-task"),
-    confirmBtn: document.querySelector("#editTaskBtn"),
-    form: document.querySelector("#editTaskForm"),
-    name: document.querySelector("#editTaskName"),
-    description: document.querySelector("#editDescription"),
-    dueDate: document.querySelector("#editDueDate"),
-    priority: document.querySelector("#editPriority"),
-    status: document.querySelector("#editStatus"),
 }
 
 export const expandTaskDomElements = {
