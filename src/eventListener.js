@@ -1,6 +1,7 @@
-import { taskDomElements, projectDomElements, editTaskDomElements, expandTaskDomElements } from './domElements';
-import { addNewTaskObject } from './projectsList';
-import createTaskCard from './createTaskCard';
+import { taskDomElements, projectDomElements, expandTaskDomElements } from './domElements';
+import { addNewTaskObject, allProjects, allTasks, defaultProject, dropProject } from './projectsList';
+import { addNewProjectObject } from './projectsList';
+import { renderAllProjectDisplay, renderAllTaskDisplay, renderProjectTasks } from './renderDisplays';
 
 taskDomElements.showDialogBtn.addEventListener('click', () => {
     taskDomElements.addingForm.reset();
@@ -14,7 +15,7 @@ projectDomElements.showDialogBtn.addEventListener('click', () => {
 
 taskDomElements.addBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    const task = addNewTaskObject(
+    addNewTaskObject(
 
         taskDomElements.name.value,
         taskDomElements.description.value,
@@ -24,13 +25,16 @@ taskDomElements.addBtn.addEventListener("click", (e) => {
         taskDomElements.project.value
     );
 
-    createTaskCard(task);
+    renderAllTaskDisplay();
+    renderAllProjectDisplay();
     taskDomElements.dialog.close();
     taskDomElements.addingForm.reset();
 });
 
 projectDomElements.addBtn.addEventListener("click", (e) => {
     e.preventDefault();
+    addNewProjectObject(projectDomElements.name.value);
+    renderAllProjectDisplay();
     projectDomElements.dialog.close();
     projectDomElements.addingForm.reset();
 });
@@ -65,18 +69,6 @@ projectDomElements.dialog.addEventListener("click", e => {
     }
 })
 
-editTaskDomElements.dialog.addEventListener("click", e => {
-    const dialogDimensions = editTaskDomElements.dialog.getBoundingClientRect()
-    if (
-        e.clientX < dialogDimensions.left ||
-        e.clientX > dialogDimensions.right ||
-        e.clientY < dialogDimensions.top ||
-        e.clientY > dialogDimensions.bottom
-    ) {
-        editTaskDomElements.dialog.close()
-    }
-})
-
 expandTaskDomElements.dialog.addEventListener("click", e => {
     const dialogDimensions = expandTaskDomElements.dialog.getBoundingClientRect()
     if (
@@ -87,4 +79,12 @@ expandTaskDomElements.dialog.addEventListener("click", e => {
     ) {
         expandTaskDomElements.dialog.close()
     }
+})
+
+projectDomElements.defaultProject.addEventListener("click", () => {
+    renderProjectTasks(defaultProject);
+})
+
+projectDomElements.allTasks.addEventListener("click", () => {
+    renderAllTaskDisplay();
 })
