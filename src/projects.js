@@ -9,5 +9,9 @@ export default function createProject(name) {
         return project;
     }();
 
+    projectPrototype.editProjectName = function (newName) {
+        newProject.name = newName;
+    }
+
     return newProject
 }
