@@ -12,63 +12,101 @@
 <body>
 
     <div class="container">
-        <div class="navbar"></div>
+        <div class="navbar">
+        </div>
         <div class="left-pane">
-            <div class="sorting">
-                <div class="time">
-                    <h4>Sort Task by Time</h>
-                        <ul>
-                            <li>Today</li>
-                            <li>This Week</li>
-                            <li>This Month</li>
-                        </ul>
+            <h3>Projects</h3>
+            <div id="displayProject" class="projects">
+                <div>
+                    <input type="radio" name="projects" id="allTasks" checked="true">
+                    <label for="allTasks">All Tasks</label>
                 </div>
-                <div class="status">
-                    <h4>Sort Task by Status</h4>
-                    <ul>
-                        <li>Pending</li>
-                        <li>In Progress</li>
-                        <li>Done</li>
-                    </ul>
+                <div>
+                    <input type="radio" name="projects" id="defaultProject">
+                    <label for="defaultProject">General Tasks</label>
                 </div>
             </div>
-            <div class="projects">
-                <h4>Show Task From Project</h>
-                    <ul>
-                        <li>ToDo</li>
-                        <li>Library</li>
-                        <li>Restaurant Page</li>
-                    </ul>
-            </div>
+            <button id="showModalProjectBtn">Add Project</button>
         </div>
         <div class="right-pane">
-            <div class="create-tasks">
-                <ul>
-                    <li>name</li>
-                    <li>description</li>
-                    <li>dueDate</li>
-                    <li>priority</li>
-                    <li>Project</li>
-                </ul>
-                <button>Add Task</button>
+            <div id="displayTasksHeader" class="display-task">
+                <div>Name</div>
+                <div hidden>Description</div>
+                <div>Due Date</div>
+                <div>Priority</div>
+                <div>Status</div>
+                <div>Project Name</div>
+                <button id="showModalTaskBtn">Add task</button>
             </div>
-            <div class="display-task">
-                <h1>Display Tasks</h1>
-                <div class="task" id="taksID">
-                    <ul>
-                        <li>name</li>
-                        <li>description</li>
-                        <li>dueDate</li>
-                        <li>priority</li>
-                    </ul>
-                    <button>Pending</button>
-                    <button>In Progress</button>
-                    <button>Done</button>
-                    <button>Delete Task</button>
-                </div>
+            <div id="displayTasks">
             </div>
         </div>
     </div>
+
+    <dialog id="add-new-task">
+        <form id="addTaskForm">
+            <div class="form-container">
+                <label for="taskName">Task Name: </label>
+                <input id="taskName" type="text">
+                <label for="description">Description: </label>
+                <input id="description" type="text">
+                <label for="dueDate">Due Date: </label>
+                <input id="dueDate" type="date">
+                <label for="priority"> Task Priority:</label>
+                <select id="priority">
+                    <option>High</option>
+                    <option selected>Normal</option>
+                    <option>Low</option>
+                </select>
+                <label for="status"> Status:</label>
+                <select id="status">
+                    <option>Done</option>
+                    <option>In Progress</option>
+                    <option selected>Pending</option>
+                </select>
+                <label for="project">Project: </label>
+                <input id="project" type="text">
+            </div>
+            <div class="form-btns">
+                <button formmethod="dialog">Cancel</button>
+                <button id="addTaskBtn">Confirm</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="expand-task">
+        <div style="display: flex;">
+            <div style="display: grid;grid-template-columns: 1fr 1fr;padding: .5rem;">
+                <div>Name:</div>
+                <div id="taskNameD"></div>
+                <div>Description:</div>
+                <div id="descriptionD"></div>
+                <div>Due Date:</div>
+                <div id="dueDateD"></div>
+                <div>Priority:</div>
+                <div id="priorityD"></div>
+                <div>Status:</div>
+                <div id="statusD"></div>
+                <div>Project:</div>
+                <div id="projectNameD"></div>
+            </div>
+            <button id="expandCloseBtn"
+                style="border: 0;border-radius: 20px;color: white;background-color:grey;height: fit-content;">x</button>
+        </div>
+    </dialog>
+
+    <dialog id="add-new-project">
+        <form id="addProjectForm">
+            <div class="form-container">
+                <label for="projectName">Project Name: </label>
+                <input id="projectName" type="text">
+            </div>
+            <div class="form-btns">
+                <button formmethod="dialog">Cancel</button>
+                <button id="addProjectBtn">Confirm</button>
+            </div>
+        </form>
+    </dialog>
 
 </body>
 
